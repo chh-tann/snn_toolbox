@@ -148,7 +148,11 @@ def normalize_parameters(model, config, **kwargs):
         inbound = get_inbound_layers_with_params(layer)
         if len(inbound) == 0:  # Input layer
             # noinspection PyProtectedMember
-            input_layer = layer._inbound_nodes[0].inbound_layers[0].name
+            try:
+                input_layer = layer._inbound_nodes[0].inbound_layers[0].name
+            except AttributeError:
+                input_layer = layer.inbound_nodes[0].inbound_layers[0].name
+
             parameters_norm = [
                 parameters[0] * scale_facs[input_layer] / scale_fac,
                 parameters[1] / scale_fac]

@@ -62,8 +62,13 @@ class SNN(AbstractSNN):
         from snntoolbox.parsing.utils import get_type
         spike_layer_name = getattr(self.sim, 'Spike' + get_type(layer))
         # noinspection PyProtectedMember
-        inbound = [self._spiking_layers[inb.name] for inb in
+        try:
+            inbound = [self._spiking_layers[inb.name] for inb in
                    layer._inbound_nodes[0].inbound_layers]
+        except AttributeError:
+            inbound = [self._spiking_layers[inb.name] for inb in
+                   layer.inbound_nodes[0].inbound_layers]
+
         if len(inbound) == 1:
             inbound = inbound[0]
         layer_kwargs = layer.get_config()
