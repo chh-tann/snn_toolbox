@@ -189,10 +189,10 @@ def load(path=None, filename=None):
     prototxt = os.path.join(path, filename + '.prototxt')
     caffemodel = os.path.join(path, filename + '.caffemodel')
     try:
-        model = caffe.Net(prototxt, 1, weights=caffemodel)
+        model = caffe.Net(str(prototxt), 1, weights=str(caffemodel))
     except RuntimeError:
         caffemodel += '.h5'
-        model = caffe.Net(prototxt, 1, weights=caffemodel)
+        model = caffe.Net(str(prototxt), 1, weights=str(caffemodel))
     model_protobuf = caffe.proto.caffe_pb2.NetParameter()
     text_format.Merge(open(prototxt).read(), model_protobuf)
 
